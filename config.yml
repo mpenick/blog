@@ -8,6 +8,7 @@ params:
   label:
     icon: /logo.svg
     iconHeight: 32
+  hideFooter: false
   #homeInfoParams:
   #  Title: "Hi! I'm Mike."
   #  Content: |
