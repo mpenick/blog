@@ -3,6 +3,8 @@ baseURL: https://penick.io/
 languageCode: en-us
 title: penick.io
 
+publishDir: docs
+
 params:
   env: production
   #homeInfoParams:
