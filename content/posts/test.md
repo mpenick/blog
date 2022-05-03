@@ -7,7 +7,7 @@ tags: ["tag", "test", "draft"]
 author: "mpenick"
 showToc: true
 TocOpen: false
-draft: true
+draft: false
 hidemeta: false
 comments: false
 description: "<Put description here>"
@@ -33,3 +33,10 @@ ShowPostNavLinks: true
 ---
 
 Here is some really great content!
+
+```go
+import "fmt"
+
+func main() {
+}
+```
