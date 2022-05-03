@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>tag on penick.io</title>
+    <link>https://penick.io/tags/tag/</link>
+    <description>Recent content in tag on penick.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 03 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://penick.io/tags/tag/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>&lt;Put title here&gt;</title>
+      <link>https://penick.io/posts/test/</link>
+      <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://penick.io/posts/test/</guid>
+      <description>&amp;lt;Put description here&amp;gt;</description>
+    </item>
+    
+    <item>
+      <title>Interesting stuff here</title>
+      <link>https://penick.io/posts/test1/</link>
+      <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://penick.io/posts/test1/</guid>
+      <description>&amp;lt;Put description here&amp;gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,48 @@
+theme: "PaperMod"
+baseURL: https://penick.io/
+languageCode: en-us
+title: penick.io
+
+params:
+  env: production
+  #homeInfoParams:
+  #  Title: "Hi! I'm Mike."
+  #  Content: |
+  #    Here are some of my thoughts.
+  socialIcons:
+    - name: "twitter"
+      url: https://twitter.com/penick
+    - name: "rss"
+      url: /index.xml
+  defaultTheme: auto
+  disableThemeToggle: true
+
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # is necessary
+
+menu:
+  main:
+    - identifier: archive
+      name: archives
+      url: /archives/
+      weight: 30
+    - identifier: tags
+      name: tags
+      url: /tags/
+      weight: 10
+    - identifier: search
+      name: search
+      url: /search/
+      weight: 20
