@@ -1,10 +1,13 @@
 theme: "PaperMod"
 baseURL: https://penick.io/
 languageCode: en-us
-title: penick.io
+title: penick.io 
 
 params:
   env: production
+  label:
+    icon: /logo.svg
+    iconHeight: 32
   #homeInfoParams:
   #  Title: "Hi! I'm Mike."
   #  Content: |
