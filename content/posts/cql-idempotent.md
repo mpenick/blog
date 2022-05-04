@@ -1,16 +1,16 @@
 ---
-title: "Test"
-date: 2022-05-03
+title: "Parsing CQL for Idempotency"
+description: "<Put description here>"
+date: YYYY-MM-DD
 # weight: 1
 # aliases: ["/first"]
-tags: ["tag", "test", "draft"]
+tags: ["tag"]
 author: "mpenick"
 showToc: true
 TocOpen: false
 draft: true
 hidemeta: false
 comments: false
-description: "<Put description here>"
 canonicalURL: "https://canonical.url/to/page"
 disableHLJS: true # to disable highlightjs
 disableShare: false
@@ -31,12 +31,3 @@ ShowPostNavLinks: true
 #    Text: "Suggest Changes" # edit text
 #    appendFilePath: true # to append file path to Edit link
 ---
-
-Here is some really great content!
-
-```go
-import "fmt"
-
-func main() {
-}
-```

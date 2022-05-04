@@ -1,16 +1,16 @@
 ---
 title: "<Put title here>"
 date: YYYY-MM-DD
+description: "<Put description here>"
+tags: ["tag"]
 # weight: 1
 # aliases: ["/first"]
-tags: ["tag"]
 author: "mpenick"
 showToc: true
 TocOpen: false
 draft: true
 hidemeta: false
 comments: false
-description: "<Put description here>"
 canonicalURL: "https://canonical.url/to/page"
 disableHLJS: true # to disable highlightjs
 disableShare: false
