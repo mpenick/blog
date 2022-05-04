@@ -1,16 +1,16 @@
 ---
 title: "Test"
 date: 2022-05-03
+description: "This is a test post to make sure everything is working!"
+tags: ["tag", "test", "draft"]
 # weight: 1
 # aliases: ["/first"]
-tags: ["tag", "test", "draft"]
 author: "mpenick"
 showToc: true
 TocOpen: false
-draft: true
+draft: false
 hidemeta: false
 comments: false
-description: "<Put description here>"
 canonicalURL: "https://canonical.url/to/page"
 disableHLJS: true # to disable highlightjs
 disableShare: false
