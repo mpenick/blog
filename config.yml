@@ -2,7 +2,15 @@ theme: "PaperMod"
 baseURL: https://penick.io/
 languageCode: en-us
 title: penick.io 
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+enableEmoji: true
+pygmentsUseClasses: true
 googleAnalytics: G-5W3FXW77RG
+
+minify:
+  disableXML: true
 
 params:
   env: production
