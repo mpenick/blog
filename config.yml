@@ -20,7 +20,7 @@ params:
     - name: "rss"
       url: /index.xml
   defaultTheme: auto
-  disableThemeToggle: true
+  disableThemeToggle: false
 
   fuseOpts:
     isCaseSensitive: false
