@@ -245,15 +245,12 @@ mechanism of passing points, to the already running goroutines, needs to be used
 channel (it's important that it's buffered, more below). 
 
 ```go
-func ScatterShotMaxConcurrency(ctx context.Context, maxConcurrency int,
+func ScatterShotLimitConcurrency(ctx context.Context, maxConcurrency int,
 	points []Point) bool {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel() // This will cancel any in progress calls
 
-	// It's important that this is also buffered; otherwise, this will block
-	// and prevent an early return when we get a "hit"
-	pointsCh := make(chan Point, len(points))
-
+	pointsCh := make(chan Point)
 	resultCh := make(chan bool, len(points))
 
 	// Avoid creating more goroutines than are necessary
@@ -261,6 +258,21 @@ func ScatterShotMaxConcurrency(ctx context.Context, maxConcurrency int,
 		maxConcurrency = len(points)
 	}
 
+	// Use a goroutine to send points to the workers without delaying
+	// this function.
+	go func() {
+		defer close(pointsCh) //  Signal the workers we're done
+
+		for _, p := range points {
+			select {
+			case pointsCh <- p:
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
+
+	// Start workers
 	for i := 0; i < maxConcurrency; i++ {
 		go func() {
 			for p := range pointsCh {
@@ -268,11 +280,6 @@ func ScatterShotMaxConcurrency(ctx context.Context, maxConcurrency int,
 			}
 		}()
 	}
-
-	for _, p := range points {
-		pointsCh <- p
-	}
-	close(pointsCh)
 
 	for range points {
 		if <-resultCh {
@@ -284,22 +291,25 @@ func ScatterShotMaxConcurrency(ctx context.Context, maxConcurrency int,
 }
 ```
 
-When implementing this there were some subtleties I missed on the first pass. The first, was I didn't
-make `pointCh` a buffered channel. It won't cause incorrect results, but it can prevent an early
-return from the function because unbuffered channels block while the worker goroutines are making
-service calls. Second, I didn't limit `maxConcurrency` when it exceeds the number of points which
-results in creating more goroutines than are necessary to solve the problem. 
+When implementing this there were some subtleties I missed on the first pass. The first, was feeding
+points to workers in the main function instead of a goroutine could delay an early return because it
+takes some amount of time to send all the points to a channel, even if it's buffered. This delay is
+probably not significant for a small number of points, but  sending points on a separate goroutine
+also sets this up nicely for rate limiting (spoiler). Second, I didn't limit `maxConcurrency` when
+it exceeds the number of points which results in creating more goroutines than are necessary to
+solve the problem.  Also, notice that sending on the unbuffered `pointsCh` might block so we also
+need to have a case in the `select {}` block for when the context is done.
 
 There's at least one major improvement we can make to our `ScatterShot()` function and that's to
 limit the request rate in each of the worker goroutines. 
 
 ### Rate limiting
 
-In all previous solutions, we process the `points` by calling the "expensive" service as fast
-as the local machine can make the requests. This is likely to overwhelm the service. One possible
-solution is to limit the request rate of each goroutine so that the total request rate is:
-`reqsPerSec * maxConcurrency`. This is accomplished by keeping track of the request time and waiting
-for remaining time difference required to achieve the desired requested rate:
+In all previous solutions, we process the `points` by calling the "expensive" service as fast as the
+local machine can make the requests. This is likely to overwhelm the service. One possible solution
+is to limit the total request rate by feeding `pointsCh` at a rate controlled by a `timer.Ticker`.
+Because the `timer.Ticker` blocks execution of goroutine (or function) it can't be done in the body
+of `ScatterShotRateLimited()` and it must be done on a separate goroutine.
 
 ```go
 func ScatterShotRateLimited(ctx context.Context, maxConcurrency int,
@@ -307,10 +317,7 @@ func ScatterShotRateLimited(ctx context.Context, maxConcurrency int,
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel() // This will cancel any in progress calls
 
-	// It's important that this is also buffered; otherwise, this will block
-	// and prevent an early return when we get a "hit"
-	pointsCh := make(chan Point, len(points))
-
+	pointsCh := make(chan Point, maxConcurrency)
 	resultCh := make(chan bool, len(points))
 
 	// Avoid creating more goroutines than are necessary
@@ -318,30 +325,36 @@ func ScatterShotRateLimited(ctx context.Context, maxConcurrency int,
 		maxConcurrency = len(points)
 	}
 
-	timePerRequest := time.Duration(float64(time.Second) / reqsPerSec)
+	// Use a goroutine to feed points to the worker without blocking
+	// this function.
+	go func() {
+		defer close(pointsCh) //  Signal the workers we're done
+
+		delayPerReq := time.Duration(float64(time.Second) / reqsPerSec)
+		// Send to workers at a rate of `reqsPerSec`
+		rateLimiter := time.Tick(delayPerReq)
+
+		for _, p := range points {
+			select {
+			case pointsCh <- p:
+				select {
+				case <-rateLimiter:
+				case <-ctx.Done():
+					return
+				}
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
 
 	for i := 0; i < maxConcurrency; i++ {
 		go func() {
 			for p := range pointsCh {
-				b := time.Now()
 				resultCh <- ExpensiveServiceCallWithContext(ctx, p)
-				e := time.Now().Sub(b)
-				d := timePerRequest - e
-				if d > 0 { // Finished faster than requested
-					t := time.NewTimer(d)
-					select {
-					case <-t.C:
-					case <-ctx.Done(): // Check the context
-					}
-				}
 			}
 		}()
 	}
-
-	for _, p := range points {
-		pointsCh <- p
-	}
-	close(pointsCh)
 
 	for range points {
 		if <-resultCh {
@@ -353,7 +366,7 @@ func ScatterShotRateLimited(ctx context.Context, maxConcurrency int,
 }
 ```
 
-One nuance here, is while waiting on the timer we also need a `select{}` block case for the
+One nuance here, is while waiting on the ticker we also need a `select{}` block case for the
 context to break out when it's done.
 
 
