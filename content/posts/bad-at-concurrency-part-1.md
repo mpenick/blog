@@ -1,11 +1,11 @@
 ---
 title: "I'm Bad at Concurrency in Go"
-date: YYYY-MM-DD
-description: "My journey to be a better Go programmer. Part 1."
+date: 2022-05-06
+description: "Improving at concurrency in Go (Part 1)"
 tags: ["golang","concurrency"]
 # weight: 1
 # aliases: ["/first"]
-author: "mpenick"
+author: "Mike"
 showToc: true
 TocOpen: false
 draft: true
@@ -33,8 +33,8 @@ ShowPostNavLinks: true
 ---
 
 Recently, I came across a hypothetical Go concurrency problem. It's a simple, toy problem that's a
-useful thought experiment for solving real problems. It's also interesting in that it can be built
-on and improved. The problem goes like this, given:
+potentially useful thought experiment for solving real-world problems. It's also interesting because
+it has potential opportunity to be built on and improved. The problem goes like this, given:
 
 ```go
 type Point struct {
@@ -42,19 +42,19 @@ type Point struct {
 }
 
 func ExpensiveServiceCall(point Point) bool {
-  // Really expensive call to remote service
+	// Really expensive call to remote service
 }
 
 func ScatterShot(points []Point) bool {
-  // Implement me
+	// Implement me
 }
 ```
 
 you're suppose to implement `ScatterShot(point []Point) bool` which returns `true` when one of the
 points "hits", that is, when a call to`ExpensiveServiceCall(point Point) bool` returns `true`.  It
-should be implemented in such a way to minimize the run time given a large number of points
-which (likely) means making multiple concurrent calls to the "expensive" service. After not much
-thought, I started work on the problem, and what I came up with was not very good.
+should be implemented in such a way to minimize the run time when given a large number of points
+which (likely) means making multiple concurrent calls to the "expensive" service. After little bit
+of thought, I started work on the problem, and what I came up with was not very good.
 
 ###  Unbounded channels
 
@@ -78,7 +78,7 @@ func ScatterShotReallyBad(points []Point) bool {
 		go func(idx int, point Point) {
 			r := ExpensiveServiceCall(point)
 			if r {
-				ch <- r // This can hang and cause a goroutine leak
+				ch <- r // This can hang, causing a goroutine leak
 			}
 			wg.Done()
 			fmt.Printf("Point %d done\n", idx)
@@ -99,7 +99,7 @@ function returns. So if you run something like:
 
 ```go
 func main() {
-	points := []Point{{}, {}, {}, {}, {}, {}, {}, {}, {}, {}}
+	points := []Point{{}, {}, {}, {}, {}, {}, {}, {}, {}, {}} // 10 points
 	ScatterShotReallyBad(points)
 }
 ```
@@ -141,9 +141,9 @@ go func(idx int, point Point) {
 It prevents the goroutines from hanging (and leaking), but it creates another
 problem! Can you spot the problem?
 
-It causes `ScatterShotSimple()` to return incorrect results, sporadically. This is because it's
+It causes `ScatterShotSimple()` to, sporadically, return incorrect results. This is because it's
 possible for goroutines to miss points that "hit" if the channel isn't receiving yet in the outer
-function. In that situation, the `select{}` block will choose the `default:` case causing it to
+function. In that situation, the `select{}` block chooses the `default:` case causing it to
 never send the result. 
 
 Unbounded channels are not a good fit for this problem! 
@@ -152,7 +152,7 @@ Unbounded channels are not a good fit for this problem!
 
 Not only does the initial solution not work correctly, it's overly complex. It turns out that if you
 use a bounded channel then things fall into place and the solution is quite elegant. A bounded
-buffer makes complete sense here because we know the total size of the problem we're trying to
+channel makes complete sense here because we know the total size of the problem we're trying to
 solve: `len(points)`, and this is size to use when creating the buffered channel:
 
 ```go
@@ -227,9 +227,10 @@ func ScatterShotSimpleWithContext(ctx context.Context, points []Point) bool {
 }
 ```
 
-The first time this was written I did not use `context.WithCancel()`, and defer the `cancel()` in the
+The first time this was written I did not use `context.WithCancel()`, and `defer cancel()` in the
 first few lines; however, this is necessary to make sure we stop any in-progress goroutines.
-`ScatterShot()` shouldn't rely on the caller to cancel goroutines that it's created. 
+`ScatterShotSimpleWithContext()` shouldn't rely on the caller to cancel goroutines that it's
+created. 
 
 It's looking better, but it could still overwhelm our "expensive" service! One way we could prevent
 that is by limiting the amount of concurrency by not creating a goroutine per call, and instead use
@@ -294,7 +295,7 @@ limit the request rate in each of the worker goroutines.
 
 ### Rate limiting
 
-In all previous solutions, we process the `points` by calling into the "expensive" service as fast
+In all previous solutions, we process the `points` by calling the "expensive" service as fast
 as the local machine can make the requests. This is likely to overwhelm the service. One possible
 solution is to limit the request rate of each goroutine so that the total request rate is:
 `reqsPerSec * maxConcurrency`. This is accomplished by keeping track of the request time and waiting
@@ -353,7 +354,7 @@ func ScatterShotRateLimited(ctx context.Context, maxConcurrency int,
 ```
 
 One nuance here, is while waiting on the timer we also need a `select{}` block case for the
-context to see if it's done.
+context to break out when it's done.
 
 
 ### Summary
