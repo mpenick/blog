@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://penick.io/sitemap.xml

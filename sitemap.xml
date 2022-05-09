@@ -1,1 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url><loc>https://penick.io/tags/draft/</loc><lastmod>2022-05-03T00:00:00+00:00</lastmod></url><url><loc>https://penick.io/</loc><lastmod>2022-05-03T00:00:00+00:00</lastmod></url><url><loc>https://penick.io/posts/</loc><lastmod>2022-05-03T00:00:00+00:00</lastmod></url><url><loc>https://penick.io/tags/tag/</loc><lastmod>2022-05-03T00:00:00+00:00</lastmod></url><url><loc>https://penick.io/tags/</loc><lastmod>2022-05-03T00:00:00+00:00</lastmod></url><url><loc>https://penick.io/tags/test/</loc><lastmod>2022-05-03T00:00:00+00:00</lastmod></url><url><loc>https://penick.io/posts/test/</loc><lastmod>2022-05-03T00:00:00+00:00</lastmod></url><url><loc>https://penick.io/archives/</loc></url><url><loc>https://penick.io/categories/</loc></url><url><loc>https://penick.io/search/</loc></url></urlset>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://penick.io/tags/draft/</loc>
+    <lastmod>2022-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://penick.io/</loc>
+    <lastmod>2022-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://penick.io/posts/</loc>
+    <lastmod>2022-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://penick.io/tags/tag/</loc>
+    <lastmod>2022-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://penick.io/tags/</loc>
+    <lastmod>2022-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://penick.io/tags/test/</loc>
+    <lastmod>2022-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://penick.io/posts/test/</loc>
+    <lastmod>2022-05-03T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://penick.io/archives/</loc>
+  </url><url>
+    <loc>https://penick.io/categories/</loc>
+  </url><url>
+    <loc>https://penick.io/search/</loc>
+  </url>
+</urlset>
