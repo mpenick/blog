@@ -4,6 +4,10 @@
     <title>Posts on penick.io</title>
     <link>https://penick.io/posts/</link>
     <description>Recent content in Posts on penick.io</description>
+    <image>
+      <url>https://penick.io/logo.svg</url>
+      <link>https://penick.io/logo.svg</link>
+    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 23 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://penick.io/posts/index.xml" rel="self" type="application/rss+xml" />

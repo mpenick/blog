@@ -4,6 +4,10 @@
     <title>Categories on penick.io</title>
     <link>https://penick.io/categories/</link>
     <description>Recent content in Categories on penick.io</description>
+    <image>
+      <url>https://penick.io/logo.svg</url>
+      <link>https://penick.io/logo.svg</link>
+    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="https://penick.io/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
