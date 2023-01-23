@@ -14,7 +14,7 @@ minify:
 
 params:
   env: production
-  images: ["/logo.svg"]
+  images: ["/logo.png"]
   label:
     icon: /logo.svg
     iconHeight: 32
