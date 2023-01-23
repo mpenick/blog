@@ -3,6 +3,7 @@ title: "I'm Bad at Concurrency in Go"
 date: 2023-01-23
 description: "Improving at concurrency in Go (Part 1)"
 tags: ["golang","concurrency"]
+images: ["images/bad-at-concurrency-part-1.png"]
 # weight: 1
 # aliases: ["/first"]
 author: "Mike"
