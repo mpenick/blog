@@ -8,7 +8,7 @@ tags: ["tag", "test", "draft"]
 author: "mpenick"
 showToc: true
 TocOpen: false
-draft: false
+draft: true
 hidemeta: false
 comments: false
 canonicalURL: "https://canonical.url/to/page"

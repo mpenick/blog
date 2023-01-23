@@ -1,6 +1,6 @@
 ---
 title: "I'm Bad at Concurrency in Go"
-date: 2022-05-06
+date: 2023-01-23
 description: "Improving at concurrency in Go (Part 1)"
 tags: ["golang","concurrency"]
 # weight: 1
@@ -8,7 +8,7 @@ tags: ["golang","concurrency"]
 author: "Mike"
 showToc: true
 TocOpen: false
-draft: true
+draft: false
 hidemeta: false
 comments: false
 canonicalURL: "https://penick.io/posts/bad-at-concurrency-part-1/"
