@@ -6,31 +6,22 @@
     <description>Recent content in Tags on penick.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 03 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://penick.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 23 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://penick.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>draft</title>
-      <link>https://penick.io/tags/draft/</link>
-      <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
+      <title>concurrency</title>
+      <link>https://penick.io/tags/concurrency/</link>
+      <pubDate>Mon, 23 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://penick.io/tags/draft/</guid>
+      <guid>https://penick.io/tags/concurrency/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>tag</title>
-      <link>https://penick.io/tags/tag/</link>
-      <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
+      <title>golang</title>
+      <link>https://penick.io/tags/golang/</link>
+      <pubDate>Mon, 23 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://penick.io/tags/tag/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>test</title>
-      <link>https://penick.io/tags/test/</link>
-      <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://penick.io/tags/test/</guid>
+      <guid>https://penick.io/tags/golang/</guid>
       <description></description>
     </item>
     
